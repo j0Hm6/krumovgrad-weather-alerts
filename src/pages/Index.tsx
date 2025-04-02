@@ -1,11 +1,10 @@
-
 import { useState, useEffect } from "react";
 import { fetchWeatherData, setupDailyWeatherAlerts } from "@/lib/api";
 import { WeatherData } from "@/lib/types";
 import { CurrentWeather } from "@/components/CurrentWeather";
 import { WeatherForecast } from "@/components/WeatherForecast";
 import { AlertSubscriptionForm } from "@/components/AlertSubscriptionForm";
-import { Cloud, CloudRain, RefreshCw, Bell, Mail } from "lucide-react";
+import { Cloud, CloudRain, RefreshCw, Bell, Mail, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
@@ -19,6 +18,8 @@ const Index = () => {
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [isSettingUpDailyAlerts, setIsSettingUpDailyAlerts] = useState(false);
+  const [alertSent, setAlertSent] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { toast } = useToast();
 
   const loadWeatherData = async () => {
@@ -62,10 +63,18 @@ const Index = () => {
     setIsSettingUpDailyAlerts(true);
     try {
       await setupDailyWeatherAlerts(email, phoneNumber || undefined);
+      setAlertSent(true);
       toast({
         title: "Daily alerts activated",
-        description: "You will now receive weather updates every day at 7:00 AM",
+        description: "You've received your first alert and will continue to receive updates every day at 7:00 AM",
       });
+      
+      setTimeout(() => {
+        setIsDialogOpen(false);
+        setAlertSent(false);
+        setEmail("");
+        setPhoneNumber("");
+      }, 3000);
     } catch (error) {
       toast({
         title: "Error setting up alerts",
@@ -91,7 +100,7 @@ const Index = () => {
               <h1 className="text-2xl font-bold">Krumovgrad Weather Alerts</h1>
             </div>
             <div className="flex space-x-2">
-              <Dialog>
+              <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                 <DialogTrigger asChild>
                   <Button 
                     variant="outline" 
@@ -106,41 +115,55 @@ const Index = () => {
                   <DialogHeader>
                     <DialogTitle>Set Up Daily Weather Alerts</DialogTitle>
                     <DialogDescription>
-                      Receive daily weather updates for Krumovgrad at 7:00 AM.
+                      Receive weather updates now and daily at 7:00 AM.
                     </DialogDescription>
                   </DialogHeader>
-                  <div className="grid gap-4 py-4">
-                    <div className="grid grid-cols-4 items-center gap-4">
-                      <Label htmlFor="daily-email" className="text-right">
-                        Email
-                      </Label>
-                      <Input
-                        id="daily-email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder="your-email@example.com"
-                        className="col-span-3"
-                      />
+                  
+                  {alertSent ? (
+                    <div className="py-6 flex flex-col items-center text-center">
+                      <CheckCircle className="h-12 w-12 text-green-500 mb-4" />
+                      <h3 className="text-xl font-medium mb-2">Alert Sent!</h3>
+                      <p className="text-muted-foreground">
+                        Your first alert has been sent to {email}.
+                        You will continue to receive daily alerts at 7:00 AM.
+                      </p>
                     </div>
-                    <div className="grid grid-cols-4 items-center gap-4">
-                      <Label htmlFor="daily-phone" className="text-right">
-                        Phone (optional)
-                      </Label>
-                      <Input
-                        id="daily-phone"
-                        value={phoneNumber}
-                        onChange={(e) => setPhoneNumber(e.target.value)}
-                        placeholder="+35912345678"
-                        className="col-span-3"
-                      />
-                    </div>
-                  </div>
-                  <DialogFooter>
-                    <Button onClick={handleSetupDailyAlerts} disabled={isSettingUpDailyAlerts}>
-                      {isSettingUpDailyAlerts && <span className="mr-2 animate-spin">⏳</span>}
-                      Activate Daily Alerts
-                    </Button>
-                  </DialogFooter>
+                  ) : (
+                    <>
+                      <div className="grid gap-4 py-4">
+                        <div className="grid grid-cols-4 items-center gap-4">
+                          <Label htmlFor="daily-email" className="text-right">
+                            Email
+                          </Label>
+                          <Input
+                            id="daily-email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            placeholder="your-email@example.com"
+                            className="col-span-3"
+                          />
+                        </div>
+                        <div className="grid grid-cols-4 items-center gap-4">
+                          <Label htmlFor="daily-phone" className="text-right">
+                            Phone (optional)
+                          </Label>
+                          <Input
+                            id="daily-phone"
+                            value={phoneNumber}
+                            onChange={(e) => setPhoneNumber(e.target.value)}
+                            placeholder="+35912345678"
+                            className="col-span-3"
+                          />
+                        </div>
+                      </div>
+                      <DialogFooter>
+                        <Button onClick={handleSetupDailyAlerts} disabled={isSettingUpDailyAlerts}>
+                          {isSettingUpDailyAlerts && <span className="mr-2 animate-spin">⏳</span>}
+                          Get Weather Alert Now & Daily
+                        </Button>
+                      </DialogFooter>
+                    </>
+                  )}
                 </DialogContent>
               </Dialog>
               
