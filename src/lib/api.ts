@@ -1,12 +1,11 @@
-
 import { WeatherData } from "./types";
 
 // For a real application, this would be an API key stored securely
-// For demo purposes, we're using a free API that doesn't require authentication
+// Updated API key since the previous one was disabled
 export async function fetchWeatherData(): Promise<WeatherData> {
   try {
     const response = await fetch(
-      "https://api.weatherapi.com/v1/forecast.json?key=11c724ab7c1f4531a41120906241605&q=Krumovgrad,Bulgaria&days=5&aqi=no&alerts=no"
+      "https://api.weatherapi.com/v1/forecast.json?key=69a5c3ed043f41ea86a221958242004&q=Krumovgrad,Bulgaria&days=5&aqi=no&alerts=no"
     );
     
     if (!response.ok) {
