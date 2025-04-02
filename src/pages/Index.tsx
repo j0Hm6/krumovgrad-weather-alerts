@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { fetchWeatherData } from "@/lib/api";
 import { WeatherData } from "@/lib/types";
@@ -7,7 +6,7 @@ import { WeatherForecast } from "@/components/WeatherForecast";
 import { AlertSubscriptionForm } from "@/components/AlertSubscriptionForm";
 import { Cloud, CloudRain, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/toast";
+import { useToast } from "@/hooks/use-toast";
 
 const Index = () => {
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
