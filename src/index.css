@@ -1,10 +1,11 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
+    --background: 210 40% 98%;
     --foreground: 222.2 84% 4.9%;
 
     --card: 0 0% 100%;
@@ -13,7 +14,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 222.2 47.4% 11.2%;
+    --primary: 210 100% 50%;
     --primary-foreground: 210 40% 98%;
 
     --secondary: 210 40% 96.1%;
@@ -98,4 +99,33 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.weather-gradient {
+  background: linear-gradient(to bottom, #0d47a1, #42a5f5);
+}
+
+.weather-bg-sunny {
+  background: linear-gradient(to bottom, #FF9800, #FFD54F);
+}
+
+.weather-bg-cloudy {
+  background: linear-gradient(to bottom, #546E7A, #B0BEC5);
+}
+
+.weather-bg-rainy {
+  background: linear-gradient(to bottom, #1976D2, #64B5F6);
+}
+
+.weather-bg-snowy {
+  background: linear-gradient(to bottom, #78909C, #ECEFF1);
+}
+
+.bulgarian-flag-gradient {
+  background: linear-gradient(to bottom, #ffffff 33%, #00966E 33%, #00966E 66%, #D62612 66%, #D62612);
+}
+
+.bulgarian-accent {
+  background: linear-gradient(135deg, #ffffff 25%, #00966E 25%, #00966E 50%, #D62612 50%, #D62612 75%, #ffffff 75%, #ffffff);
+  background-size: 20px 20px;
 }
