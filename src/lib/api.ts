@@ -34,3 +34,21 @@ export async function subscribeToAlerts(email: string, frequency: string, condit
     }, 1500);
   });
 }
+
+// New function for automated daily weather alerts
+export async function setupDailyWeatherAlerts(email: string, phoneNumber?: string): Promise<boolean> {
+  // In a real implementation, this would connect to a backend service
+  // that schedules daily emails at 7:00 AM
+  console.log("Setting up daily weather alerts:", { 
+    email, 
+    phoneNumber, 
+    schedule: "Daily at 7:00 AM" 
+  });
+  
+  // Simulate API call with a delay
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(true);
+    }, 1000);
+  });
+}

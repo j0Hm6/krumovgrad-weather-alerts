@@ -55,3 +55,10 @@ export interface AlertConfig {
   conditions: string[];
   phoneNumber?: string;
 }
+
+export interface AutomatedAlertConfig {
+  email: string;
+  phoneNumber?: string;
+  time: string;
+  active: boolean;
+}
